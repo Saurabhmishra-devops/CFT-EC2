@@ -28,7 +28,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro # Instance type
-      ImageId: amii-083c34c87a508ee39 # Amazon Linux 2 AMI
+      ImageId: ami-0fd3ac4abb734302a # Amazon Linux 2 AMI
       KeyName: devtest # Reference to the KeyName parameter
       SubnetId: subnet-031b4140270ce3665 # Reference to the SubnetId parameter
       SecurityGroupIds:
@@ -47,4 +47,5 @@ Outputs:
     Value:
       Fn::GetAtt:
         - MyEC2Instance
+
         - PublicIp
