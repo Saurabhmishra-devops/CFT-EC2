@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Launch a basic EC2 instance in a specified VPC subnet"
+
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+    Type: AWS::EC2::KeyPair::KeyName
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+  AmiId:
+    Description: AMI ID for the EC2 instance
+    Type: AWS::EC2::Image::Id
+  SubnetId:
+    Description: Subnet ID for the EC2 instance
+    Type: AWS::EC2::Subnet::Id
+  SecurityGroupId:
+    Description: Security Group ID for the EC2 instance
+    Type: AWS::EC2::SecurityGroup::Id
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro # Instance type
+      ImageId: amii-083c34c87a508ee39 # Amazon Linux 2 AMI
+      KeyName: devtest # Reference to the KeyName parameter
+      SubnetId: subnet-031b4140270ce3665 # Reference to the SubnetId parameter
+      SecurityGroupIds:
+        - sg-09cc201c876070f24 # Reference to the SecurityGroupId parameter
+      Tags:
+        - Key: Name # Tag to identify the instance
+          Value: Saurabh # Value for the Name tag
+
+Outputs:
+  InstanceId:
+    Description: "Instance ID of the newly created EC2 instance"
+    Value:
+      Ref: MyEC2Instance
+  PublicIP:
+    Description: "Public IP address of the EC2 instance"
+    Value:
+      Fn::GetAtt:
+        - MyEC2Instance
+        - PublicIp
